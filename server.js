@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 
+// .env
+require("dotenv").config()
+
 app.get("/", (req, res)=>{
     res.send("API - React Chat App")
 })
