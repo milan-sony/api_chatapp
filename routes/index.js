@@ -1,13 +1,21 @@
-const express = require('express')
+const express = require("express")
 const router = express.Router()
 
-router.get("/", (req, res) => {
-    res.send(200).json(
-        {
-            status: 200,
-            message: 'API working properly'
-        }
-    )
+// const api = require('./api')
+const auth = require("./auth")
+
+// router.use('/api/v1', api)
+router.use("/auth", auth)
+
+// router.use("/", (req, res)=>{
+//     res.status(200).send('API worked successfully')
+// })
+
+router.get("/", (req, res)=>{
+    res.send({
+        status: 200,
+        message: "API worked successfully"
+    })
 })
 
 module.exports = router
