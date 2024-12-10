@@ -57,7 +57,8 @@ module.exports = {
         } catch (err) {
             res.status(500).send({
                 status: 500,
-                message: "Internal server error"
+                message: "Internal server error",
+                error: "Error: "`${err}`
             })
             console.log("Error: ", err)
         }
