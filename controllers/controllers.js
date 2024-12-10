@@ -22,11 +22,11 @@ module.exports = {
                 })
             }
 
+            // Hashing password
             var salt = bcrypt.genSaltSync(10);
             var hashedPassword = bcrypt.hashSync(password, salt);
 
             const maleAvatatUrl = `https://avatar.iran.liara.run/public/boy?username=${userName}`
-
             const femaleAvatarUrl = `https://avatar.iran.liara.run/public/girl?username=${userName}`
 
             const newUser = new usermodel({
@@ -36,14 +36,15 @@ module.exports = {
                 gender: gender,
                 profilePicture: gender === "male" ? maleAvatatUrl : femaleAvatarUrl
             })
+
             await newUser.save()
+
             return res.status(201).send({
                 _id: newUser._id,
                 fullName: newUser.fullName,
                 userName: newUser.userName,
                 profilePicture: newUser.profilePicture
             })
-
         } catch (err) {
             res.status(500).send({
                 status: 500,
