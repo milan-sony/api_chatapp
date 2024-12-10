@@ -1,4 +1,5 @@
 const usermodel = require("../model/usermodel")
+const bcrypt = require("bcryptjs")
 
 module.exports = {
     signup: async (req, res) => {
@@ -12,7 +13,7 @@ module.exports = {
                 })
             }
 
-            const user = await usermodel.findOne({userName: userName})
+            const user = await usermodel.findOne({ userName: userName })
 
             if (user) {
                 return res.status(400).send({
@@ -21,6 +22,9 @@ module.exports = {
                 })
             }
 
+            var salt = bcrypt.genSaltSync(10);
+            var hashedPassword = bcrypt.hashSync(password, salt);
+
             const maleAvatatUrl = `https://avatar.iran.liara.run/public/boy?username=${userName}`
 
             const femaleAvatarUrl = `https://avatar.iran.liara.run/public/girl?username=${userName}`
@@ -28,7 +32,7 @@ module.exports = {
             const newUser = new usermodel({
                 fullName: fullName,
                 userName: userName,
-                password: password,
+                password: hashedPassword,
                 gender: gender,
                 profilePicture: gender === "male" ? maleAvatatUrl : femaleAvatarUrl
             })
