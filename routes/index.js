@@ -7,15 +7,18 @@ const auth = require("./auth")
 // router.use('/api/v1', api)
 router.use("/auth", auth)
 
-// router.use("/", (req, res)=>{
-//     res.status(200).send('API worked successfully')
-// })
-
-router.get("/", (req, res)=>{
-    res.send({
+router.use("/", (req, res)=>{
+    res.status(200).send({
         status: 200,
         message: "API worked successfully"
     })
 })
+
+// router.get("/", (req, res)=>{
+//     res.send({
+//         status: 200,
+//         message: "API worked successfully"
+//     })
+// })
 
 module.exports = router
