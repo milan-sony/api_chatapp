@@ -39,12 +39,21 @@ module.exports = {
 
             await newUser.save()
 
-            return res.status(201).send({
-                _id: newUser._id,
-                fullName: newUser.fullName,
-                userName: newUser.userName,
-                profilePicture: newUser.profilePicture
-            })
+            if (newUser) {
+                res.status(201).send({
+                    status: 201,
+                    _id: newUser._id,
+                    fullName: newUser.fullName,
+                    userName: newUser.userName,
+                    profilePicture: newUser.profilePicture,
+                    message: "User successfully created"
+                })
+            }else{
+                res.status(400).send({
+                    status: 400,
+                    message: "Invalid user data"
+                })
+            }
         } catch (err) {
             res.status(500).send({
                 status: 500,
