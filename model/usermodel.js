@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true
@@ -15,16 +15,15 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6
     },
-    gender: {
-        type: String,
-        required: true,
-        enum: ["male", "female"]
-    },
     profilePicture: {
         type: String,
         required: false,
         default: ""
+    },
+},
+    {
+        timestamps: true
     }
-})
+)
 
 module.exports = mongoose.model('users', userSchema);
