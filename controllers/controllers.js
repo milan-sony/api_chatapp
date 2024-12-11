@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs")
 module.exports = {
     signup: async (req, res) => {
         try {
-            const { fullName, userName, password, confirmPassword, gender } = req.body
+            const { fullName, email, password, confirmPassword, gender } = req.body
 
             if (password !== confirmPassword) {
                 res.status(400).send({
@@ -13,7 +13,7 @@ module.exports = {
                 })
             }
 
-            const user = await usermodel.findOne({ userName: userName })
+            const user = await usermodel.findOne({ email: email })
 
             if (user) {
                 return res.status(400).send({
@@ -26,25 +26,24 @@ module.exports = {
             var salt = bcrypt.genSaltSync(10);
             var hashedPassword = bcrypt.hashSync(password, salt);
 
-            const maleAvatatUrl = `https://avatar.iran.liara.run/public/boy?username=${userName}`
-            const femaleAvatarUrl = `https://avatar.iran.liara.run/public/girl?username=${userName}`
+            const maleAvatatUrl = `https://avatar.iran.liara.run/public/boy?username=${fullName}`
+            const femaleAvatarUrl = `https://avatar.iran.liara.run/public/girl?username=${fullName}`
 
             const newUser = new usermodel({
                 fullName: fullName,
-                userName: userName,
+                email: email,
                 password: hashedPassword,
                 gender: gender,
                 profilePicture: gender === "male" ? maleAvatatUrl : femaleAvatarUrl
             })
 
-            await newUser.save()
-
             if (newUser) {
+                await newUser.save()
                 res.status(201).send({
                     status: 201,
                     _id: newUser._id,
                     fullName: newUser.fullName,
-                    userName: newUser.userName,
+                    email: newUser.email,
                     profilePicture: newUser.profilePicture,
                     message: "User successfully created"
                 })
