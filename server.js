@@ -11,6 +11,10 @@ db.connect();
 // body parser
 app.use(express.json())
 
+// cookie parser
+const cookieParser = require("cookie-parser")
+app.use(cookieParser())
+
 // Base URL (/)
 const routes = require("./routes")
 app.use("/", routes);

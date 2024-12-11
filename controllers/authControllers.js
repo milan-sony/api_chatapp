@@ -113,12 +113,16 @@ module.exports = {
         try {
             res.cookie("jwt", "", { maxAge: 0 })
             res.status(200).send({
-                status:200,
+                status: 200,
                 message: "User logged out successfully"
             })
 
         } catch (error) {
 
         }
+    },
+
+    updateProfile: async (req, res) => {
+        console.log("update profile")
     }
 }

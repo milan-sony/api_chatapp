@@ -1,5 +1,6 @@
 const express = require('express')
-const { signup, login } = require('../controllers/authControllers')
+const { signup, login, logout, updateProfile } = require('../controllers/authControllers')
+const verifyToken = require('../middleware/verifyToken')
 
 const router = express.Router()
 
@@ -7,6 +8,12 @@ const router = express.Router()
 router.post("/signup", signup)
 
 // user login
-router.post('/login', login)
+router.post("/login", login)
+
+// user logout
+router.post("/logout", logout)
+
+// update profile pic
+router.put("/update_profile", verifyToken, updateProfile)
 
 module.exports = router
