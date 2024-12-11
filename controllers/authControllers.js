@@ -1,17 +1,20 @@
 const usermodel = require("../model/usermodel")
 const bcrypt = require("bcryptjs")
+const generateToken = require("../utlis/generateToken")
 
 module.exports = {
     signup: async (req, res) => {
         try {
-            const { fullName, email, password, confirmPassword } = req.body
+            const { fullName, email, password } = req.body
 
-            if (password !== confirmPassword) {
+            if (!fullName || !email || !password) {
                 res.status(400).send({
                     status: 400,
-                    message: "Passwords doesn't match"
+                    message: "All fields are required"
                 })
-            }else if(password.length < 6){
+            }
+
+            if (password.length < 6) {
                 res.status(400).send({
                     status: 400,
                     message: "Password must be at least 6 character"
@@ -38,15 +41,18 @@ module.exports = {
             })
 
             if (newUser) {
+                // Generate JWT token
+                generateToken(newUser._id, res)
                 await newUser.save()
                 res.status(201).send({
                     status: 201,
                     _id: newUser._id,
                     fullName: newUser.fullName,
                     email: newUser.email,
+                    profilePicture: newUser.profilePicture,
                     message: "User successfully created"
                 })
-            }else{
+            } else {
                 res.status(400).send({
                     status: 400,
                     message: "Invalid user data"
@@ -56,7 +62,6 @@ module.exports = {
             res.status(500).send({
                 status: 500,
                 message: "Internal server error",
-                error: "Error: "`${err}`
             })
             console.log("Error: ", err)
         }
