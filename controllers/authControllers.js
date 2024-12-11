@@ -58,7 +58,8 @@ module.exports = {
                     message: "Invalid user data"
                 })
             }
-        } catch (err) {
+        } catch (error) {
+            console.log("Error in signup", error.message)
             return res.status(500).send({
                 status: 500,
                 message: "Internal server error",
@@ -67,7 +68,57 @@ module.exports = {
     },
 
 
-    login: (req, res) => {
-        return res.send("Login")
+    login: async (req, res) => {
+        try {
+            const { email, password } = req.body
+
+            const user = await usermodel.findOne({ email: email })
+
+            if (!user) {
+                return res.status(400).send({
+                    status: 400,
+                    message: "Invalid credentials"
+                })
+            }
+
+            // Check if password is correct
+            const isPasswordCorrect = await bcrypt.compare(password, user.password)
+            if (!isPasswordCorrect) {
+                return res.status(400).json({
+                    status: 400,
+                    message: "Invalid credentials"
+                })
+            }
+
+            generateToken(user._id, res)
+            res.status(200).send({
+                status: 200,
+                _id: user._id,
+                fullName: user.fullName,
+                email: user.email,
+                profilePicture: user.profilePicture,
+                message: "User logged in successfully"
+            })
+
+        } catch (error) {
+            console.log("Error in login", error.message)
+            return res.status(500).send({
+                status: 500,
+                message: "Internal server error",
+            })
+        }
+    },
+
+    logout: (req, res) => {
+        try {
+            res.cookie("jwt", "", { maxAge: 0 })
+            res.status(200).send({
+                status:200,
+                message: "User logged out successfully"
+            })
+
+        } catch (error) {
+
+        }
     }
 }
