@@ -4,12 +4,17 @@ const bcrypt = require("bcryptjs")
 module.exports = {
     signup: async (req, res) => {
         try {
-            const { fullName, email, password, confirmPassword, gender } = req.body
+            const { fullName, email, password, confirmPassword } = req.body
 
             if (password !== confirmPassword) {
                 res.status(400).send({
                     status: 400,
                     message: "Passwords doesn't match"
+                })
+            }else if(password.length < 6){
+                res.status(400).send({
+                    status: 400,
+                    message: "Password must be at least 6 character"
                 })
             }
 
@@ -23,18 +28,13 @@ module.exports = {
             }
 
             // Hashing password
-            var salt = bcrypt.genSaltSync(10);
-            var hashedPassword = bcrypt.hashSync(password, salt);
-
-            const maleAvatatUrl = `https://avatar.iran.liara.run/public/boy?username=${fullName}`
-            const femaleAvatarUrl = `https://avatar.iran.liara.run/public/girl?username=${fullName}`
+            const salt = bcrypt.genSaltSync(10);
+            const hashedPassword = bcrypt.hashSync(password, salt);
 
             const newUser = new usermodel({
                 fullName: fullName,
                 email: email,
                 password: hashedPassword,
-                gender: gender,
-                profilePicture: gender === "male" ? maleAvatatUrl : femaleAvatarUrl
             })
 
             if (newUser) {
@@ -44,7 +44,6 @@ module.exports = {
                     _id: newUser._id,
                     fullName: newUser.fullName,
                     email: newUser.email,
-                    profilePicture: newUser.profilePicture,
                     message: "User successfully created"
                 })
             }else{
