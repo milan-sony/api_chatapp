@@ -4,9 +4,9 @@ const { signup, login } = require('../controllers/authControllers')
 const router = express.Router()
 
 // user signup
-router.get("/signup", signup)
+router.post("/signup", signup)
 
 // user login
-router.get('/login', login)
+router.post('/login', login)
 
 module.exports = router
