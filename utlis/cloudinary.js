@@ -1,13 +1,13 @@
-import { v2 as cloudinary } from 'cloudinary';
-import { config } from 'dotenv';
+const cloudinary = require("cloudinary").v2; // Use `v2` to access Cloudinary methods
+const { config } = require("dotenv");
 
-config();
+config(); // Load environment variables from .env file
 
-// Condinary configuration
+// Cloudinary configuration
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
-})
+});
 
-export default cloudinary
+module.exports = cloudinary;
