@@ -2,10 +2,9 @@ const express = require("express")
 const router = express.Router()
 
 // const api = require('./api')
-const auth = require("./auth")
+const userRoutes = require("./userRoutes")
 
-// router.use('/api/v1', api)
-router.use("/auth", auth)
+router.use("/user", userRoutes)
 
 router.use("/", (req, res)=>{
     res.status(200).send({
