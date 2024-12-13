@@ -1,6 +1,7 @@
 const usermodel = require("../model/usermodel")
 const bcrypt = require("bcryptjs")
 const generateToken = require("../utlis/generateToken")
+const { cloudinary } = require("../utlis/cloudinary")
 
 module.exports = {
     signup: async (req, res) => {
@@ -118,11 +119,52 @@ module.exports = {
             })
 
         } catch (error) {
+            return res.status(500).send({
+                "status": 500,
+                "message": "Internal server error"
+            })
 
         }
     },
 
     updateProfile: async (req, res) => {
-        console.log("update profile")
+        try {
+            const { profilePicture } = req.body
+            const userId = req.user._id
+
+            if (!profilePicture) {
+                res.status(400).send({
+                    status: 400,
+                    message: "Profile picture is required"
+                })
+
+                const uploadResponse = await cloudinary.uploader.upload(profilePicture)
+
+                // update the profile in the database
+                const updatedUser = await usermodel.findByIdAndUpdate(userId, { profilePicture: uploadResponse.secure_url }, { new: true })
+
+                res.status(200).send({
+                    status: 200,
+                    message: "Profile picture updated",
+                })
+            }
+        } catch (error) {
+            return res.status(500).send({
+                "status": 500,
+                "message": "Internal server error"
+            })
+        }
+    },
+
+    checkAuth: (req, res) => {
+        try {
+            res.status(200).send(req.user)
+        } catch (error) {
+            console.log("Error in checkAuth", error.message)
+            res.status(500).send({
+                status: 500,
+                message: "Internal server error"
+            })
+        }
     }
 }
