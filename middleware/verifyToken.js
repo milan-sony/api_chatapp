@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken")
 
-const usermodel = require("../model/usermodel")
+const userModel = require("../model/userModel")
 
 const verifyToken = async (req, res, next) => {
     try {
@@ -22,7 +22,7 @@ const verifyToken = async (req, res, next) => {
             })
         }
 
-        const user = await usermodel.findById(decoded.userId).select("-password")
+        const user = await userModel.findById(decoded.userId).select("-password")
 
         if (!user) {
             return res.status(404).send({

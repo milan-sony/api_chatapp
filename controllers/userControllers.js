@@ -1,4 +1,4 @@
-const usermodel = require("../model/usermodel")
+const userModel = require("../model/userModel")
 const bcrypt = require("bcryptjs")
 const generateToken = require("../utlis/generateToken")
 const { cloudinary } = require("../utlis/cloudinary")
@@ -22,7 +22,7 @@ module.exports = {
                 })
             }
 
-            const user = await usermodel.findOne({ email: email })
+            const user = await userModel.findOne({ email: email })
 
             if (user) {
                 return res.status(400).send({
@@ -35,7 +35,7 @@ module.exports = {
             const salt = bcrypt.genSaltSync(10);
             const hashedPassword = bcrypt.hashSync(password, salt);
 
-            const newUser = new usermodel({
+            const newUser = new userModel({
                 fullName: fullName,
                 email: email,
                 password: hashedPassword,
@@ -73,7 +73,7 @@ module.exports = {
         try {
             const { email, password } = req.body
 
-            const user = await usermodel.findOne({ email: email })
+            const user = await userModel.findOne({ email: email })
 
             if (!user) {
                 return res.status(400).send({
@@ -141,7 +141,7 @@ module.exports = {
                 const uploadResponse = await cloudinary.uploader.upload(profilePicture)
 
                 // update the profile in the database
-                const updatedUser = await usermodel.findByIdAndUpdate(userId, { profilePicture: uploadResponse.secure_url }, { new: true })
+                const updatedUser = await userModel.findByIdAndUpdate(userId, { profilePicture: uploadResponse.secure_url }, { new: true })
 
                 res.status(200).send({
                     status: 200,
