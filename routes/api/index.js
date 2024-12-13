@@ -1,14 +1,15 @@
 const express = require("express")
 const router = express.Router()
 
-const api = require("./api")
-router.use("/api/v1", api)
+const userRoutes = require("./userRoutes")
 
-router.use("/api", (req, res)=>{
+router.get('/', (req, res) => {
     res.status(200).send({
         status: 200,
-        message: "Chat API is working properly"
+        message: "Chat API V1"
     })
 })
+
+router.use('/user', userRoutes)
 
 module.exports = router
