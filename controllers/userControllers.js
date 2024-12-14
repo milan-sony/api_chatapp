@@ -64,6 +64,7 @@ module.exports = {
             return res.status(500).send({
                 status: 500,
                 message: "Internal server error",
+                error: error
             })
         }
     },
@@ -106,6 +107,7 @@ module.exports = {
             return res.status(500).send({
                 status: 500,
                 message: "Internal server error",
+                error: error
             })
         }
     },
@@ -121,7 +123,8 @@ module.exports = {
         } catch (error) {
             return res.status(500).send({
                 "status": 500,
-                "message": "Internal server error"
+                "message": "Internal server error",
+                error: error
             })
 
         }
@@ -151,7 +154,8 @@ module.exports = {
         } catch (error) {
             return res.status(500).send({
                 "status": 500,
-                "message": "Internal server error"
+                "message": "Internal server error",
+                error: error
             })
         }
     },
@@ -163,7 +167,8 @@ module.exports = {
             console.log("Error in checkAuth", error.message)
             res.status(500).send({
                 status: 500,
-                message: "Internal server error"
+                message: "Internal server error",
+                error: error
             })
         }
     }
