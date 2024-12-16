@@ -16,7 +16,7 @@ app.use(express.json())
 const cors = require("cors")
 app.use(cors({
     origin: "http://localhost:5173",
-    credentials: true
+    credentials: true //allows to send cookies and authorization headers with the request
 }))
 
 // cookie parser
