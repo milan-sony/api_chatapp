@@ -47,7 +47,7 @@ module.exports = {
         }
     },
 
-    sendMessage: async () => {
+    sendMessage: async (req, res) => {
         try {
             const { text, image } = req.body
             const senderId = req.user._id
