@@ -1,9 +1,9 @@
 const express = require('express')
-const { app, httpServer, io } = require('./utlis/socket');
 const db = require('./config/db');
 const cors = require("cors")
 const cookieParser = require("cookie-parser")
 const routes = require("./routes");
+const { app, httpServer } = require('./utlis/socket');
 
 // .env
 require("dotenv").config()

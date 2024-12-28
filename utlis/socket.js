@@ -18,12 +18,9 @@ io.on("connection", (socket) => {
     console.log("A user has connected", socket.id)
 
     /// when server disconnects from user
-    socket.on("disconnect", () =>{
+    socket.on("disconnect", () => {
         console.log("A user disconnected", socket.id)
     })
 })
-
-
-
 
 module.exports = { app, httpServer, io };
