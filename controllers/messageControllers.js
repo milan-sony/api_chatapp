@@ -1,6 +1,7 @@
 const messagemodel = require("../model/messagemodel")
 const usermodel = require("../model/userModel")
 const { cloudinary } = require("../utlis/cloudinary")
+const { getReceiverSocketId, io } = require("../utlis/socket")
 
 module.exports = {
     getUsersForSidebar: async (req, res) => {
@@ -66,6 +67,13 @@ module.exports = {
 
             if (newmessage) {
                 await newmessage.save()
+
+                const receiverSocketId = getReceiverSocketId(receiverId)
+
+                if(receiverSocketId){
+                    io.to(receiverSocketId).emit("newMessage", newmessage)
+                }
+
                 return res.status(201).send({
                     status: 201,
                     _id: newmessage._id,
