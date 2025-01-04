@@ -65,3 +65,67 @@ CLOUDINARY_API_SECRET =
 ```
 npm run dev
 ```
+
+## API Reference/Endpoints
+
+#### user signup
+
+```http
+  POST /api/v1/user/signup
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `fullName` | `string` | **Required** |
+| `email` | `string` | **Required** |
+| `password` | `string` | **Required** |
+
+#### user login
+
+```http
+  POST /api/v1/user/login
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `email`      | `string` | **Required**|
+| `password`      | `string` | **Required**|
+
+
+#### get all users
+
+```http
+  GET /api/v1/user/users
+```
+
+
+#### user logout
+
+```http
+  POST /api/v1/user/logout
+```
+
+#### update user profile picture
+
+```http
+  PUT /api/v1/user/update_profile
+```
+
+#### check whether the user is authenticated
+
+```http
+  GET /api/v1/user/check
+```
+
+#### get all the message with a particular user
+
+```http
+  GET /api/v1/message/id
+```
+
+#### send message with particular user
+
+```http
+  POST /api/v1/message/send/id
+```
+
