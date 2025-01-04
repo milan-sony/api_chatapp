@@ -4,6 +4,7 @@ const cors = require("cors")
 const cookieParser = require("cookie-parser")
 const routes = require("./routes");
 const { app, httpServer } = require('./utlis/socket');
+const bodyParser = require('body-parser')
 
 // .env
 require("dotenv").config()
@@ -11,8 +12,10 @@ require("dotenv").config()
 // DB
 db.connect();
 
+
 // body parser
-app.use(express.json())
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // cors
 app.use(cors({
