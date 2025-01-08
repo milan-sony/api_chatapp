@@ -1,6 +1,6 @@
 # API - ChatApp
 
-API of a chat app build on **React**
+API of a chat app build on **MERN**
 
 [ChatApp link](https://github.com/milan-sony/ChatApp)
 
